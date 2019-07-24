@@ -11,9 +11,9 @@ import numpy as np
 print(tf.__version__)
 
 fashion_mnist = keras.datasets.fashion_mnist
-
+print('data set fetched')
 (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
-
+print('data set loaded')
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
