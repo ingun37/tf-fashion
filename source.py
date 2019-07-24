@@ -23,21 +23,24 @@ print("class names: {}".format(class_names))
 train_images = train_images / 255.0
 test_images = test_images / 255.0
 
-plt.figure(figsize=(10,10))
-for i in range(25):
-    plt.subplot(5,5,i+1)
-    plt.xticks([])
-    plt.yticks([])
-    plt.grid(False)
-    plt.imshow(train_images[i], cmap=plt.cm.binary)
-    plt.xlabel(class_names[int(train_labels[i])])
-plt.show()
+# Here are layers of my deep learning architecture:
 
-plt.close()
-
+# 2D Convolutions (k=13, s=1, padding=valid)
+# Max Pooling (k=2, s=2, padding=same)
+# 2D Convolution (k=2, s=2, padding=same)
+# Max Pooling (k=2, s=2, padding=same)
+# 1x1 Convolutions (k=1, s=1, padding=valid)
+# Fully Connected
+# Fully Connected
 model = keras.Sequential([
-    keras.layers.Flatten(input_shape=(28, 28)),
-    keras.layers.Dense(128, activation=tf.nn.relu),
+    keras.layers.Conv2D(16, (13, 13), activation=tf.nn.relu, input_shape=(28, 28, 1)), # 16x16x16
+    keras.layers.MaxPool2D((2,2), strides=(2,2), padding='same'), # 8x8x16
+    keras.layers.Conv2D(32, (2,2), strides=(2,2), padding='same', activation=tf.nn.relu), #4x4x32
+    keras.layers.MaxPool2D((2,2), strides=(2,2), padding='same'), #2x2x32
+    keras.layers.Conv2D(64, (2,2), padding='same', activation=tf.nn.relu), #1x1x64
+    keras.layers.Flatten(input_shape=(64, 1, 1)),
+    keras.layers.Dense(64, activation=tf.nn.relu),
+    keras.layers.Dense(64, activation=tf.nn.relu),
     keras.layers.Dense(len(class_names), activation=tf.nn.softmax)
 ])
 print('model created')

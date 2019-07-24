@@ -21,7 +21,7 @@ def load_emnist_balanced_data() -> ((np.array, np.array), (np.array, np.array), 
 
     def decode_data(data):
         num = data[0].shape[0]
-        datas = data[0].reshape((num, 28, 28)).transpose([0,2,1]).astype('uint8')
+        datas = data[0].reshape((num, 28, 28, 1)).transpose([0, 2, 1, 3]).astype('uint8')
         labels = data[1].astype('uint8')
         return (datas, labels)
 
