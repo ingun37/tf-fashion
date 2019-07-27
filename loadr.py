@@ -1,5 +1,6 @@
 from scipy.io import loadmat
 import numpy as np
+from PIL import Image
 
 def class_names():
     def compose(g, f):
@@ -26,3 +27,4 @@ def load_emnist_balanced_data() -> ((np.array, np.array), (np.array, np.array), 
         return (datas, labels)
 
     return decode_data(data[0][0, 0]), decode_data(data[1][0, 0]), class_names()
+

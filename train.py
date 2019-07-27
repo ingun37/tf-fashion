@@ -44,13 +44,8 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(checkpoint_path,
 model = mymodel.create_model(input_shape, len(class_names))
 model.summary()
 
-model.load_weights(checkpoint_path)
-# model.fit(train_images, train_labels, batch_size=1000, epochs=2, callbacks = [cp_callback])
+model.fit(train_images, train_labels, batch_size=1000, epochs=2, callbacks = [cp_callback])
 print('model fitted')
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 print('model evaluated')
 print('Test accuracy:', test_acc)
-
-predictions = model.predict(test_images)
-
-print(predictions)
