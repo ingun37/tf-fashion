@@ -31,7 +31,7 @@ model.summary()
 
 model.load_weights(checkpoint_path)
 
-test_img_path = os.path.join(os.path.dirname(__file__), "test.jpg")
+test_img_path = os.path.join(os.path.dirname(__file__), "test.jpeg")
 
 test_img_raw = Image.open(test_img_path).resize((28, 28))
 test_rgb = np.array(test_img_raw)
