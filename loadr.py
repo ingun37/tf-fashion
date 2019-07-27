@@ -10,13 +10,13 @@ def class_names():
     num_names = map(str, range(10))
     cap_names = map(str_chr, range(ord('A'), ord('Z')+1))
     low_names = map(str_chr, range(ord('a'), ord('z')+1))
-    merged_names = ['c','i','j','k','l','m','o','p','s','u','v','w','x','y','z']
+    merged_names = []
     sorted_low_names = sorted(set(low_names) - set(merged_names))
 
     return list(num_names) + list(cap_names) + list(sorted_low_names)
 
 def load_emnist_balanced_data() -> ((np.array, np.array), (np.array, np.array), list):
-    m = loadmat('emnist-balanced.mat')
+    m = loadmat('emnist-byclass.mat')
     data = m['dataset'][0, 0]
 
     def decode_data(data):
