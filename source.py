@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import os
 # TensorFlow and tf.keras
 import tensorflow as tf
 from tensorflow import keras
@@ -10,6 +11,8 @@ import numpy as np
 from scipy.io import loadmat
 import matplotlib.pyplot as plt
 from loadr import load_emnist_balanced_data
+import mymodel
+
 print(tf.__version__)
 
 
@@ -28,39 +31,21 @@ test_images = test_images / 255.0
 
 l = tf.keras.layers
 data_format = 'channels_last'
-max_pool = l.MaxPooling2D((2, 2), (2, 2), padding='same', data_format=data_format)
 
 input_shape = [28, 28, 1]
 
-model = tf.keras.Sequential()
-model.add(l.Conv2D(32, kernel_size = 3, activation='relu', input_shape = input_shape))
-model.add(l.BatchNormalization())
-model.add(l.Conv2D(32, kernel_size = 3, activation='relu'))
-model.add(l.BatchNormalization())
-model.add(l.Conv2D(32, kernel_size = 5, strides=2, padding='same', activation='relu'))
-model.add(l.BatchNormalization())
-model.add(l.Dropout(0.4))
+checkpoint_path = "training_1/cp.ckpt"
+checkpoint_dir = os.path.dirname(checkpoint_path)
 
-model.add(l.Conv2D(64, kernel_size = 3, activation='relu'))
-model.add(l.BatchNormalization())
-model.add(l.Conv2D(64, kernel_size = 3, activation='relu'))
-model.add(l.BatchNormalization())
-model.add(l.Conv2D(64, kernel_size = 5, strides=2, padding='same', activation='relu'))
-model.add(l.BatchNormalization())
-model.add(l.Dropout(0.4))
+cp_callback = tf.keras.callbacks.ModelCheckpoint(checkpoint_path,
+                                                 save_weights_only=True,
+                                                 verbose=1)
 
-model.add(l.Conv2D(128, kernel_size = 4, activation='relu'))
-model.add(l.BatchNormalization())
-model.add(l.Flatten())
-model.add(l.Dropout(0.4))
-model.add(l.Dense(len(class_names), activation='softmax'))
+model = mymodel.create_model(input_shape, len(class_names))
+model.summary()
 
-print('model created')
-model.compile(optimizer='adam',
-              loss='sparse_categorical_crossentropy',
-              metrics=['accuracy'])
-print('model compiled')
-model.fit(train_images, train_labels, batch_size=1000, epochs=2)
+
+model.fit(train_images, train_labels, batch_size=1000, epochs=2, callbacks = [cp_callback])
 print('model fitted')
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 print('model evaluated')
