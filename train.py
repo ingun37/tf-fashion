@@ -10,7 +10,7 @@ import numpy as np
 # import matplotlib.pyplot as plt
 from scipy.io import loadmat
 import matplotlib.pyplot as plt
-from loadr import load_emnist_balanced_data
+from loadr import load_emnist_digits_data
 import mymodel
 
 print(tf.__version__)
@@ -19,7 +19,7 @@ print(tf.__version__)
 # fashion_mnist = keras.datasets.fashion_mnist
 # print('data set fetched')
 # (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
-(train_images, train_labels), (test_images, test_labels), class_names = load_emnist_balanced_data()
+(train_images, train_labels), (test_images, test_labels), class_names = load_emnist_digits_data()
 
 # train_images = train_images[:50000]
 # train_labels = train_labels[:50000]
@@ -34,7 +34,7 @@ data_format = 'channels_last'
 
 input_shape = [28, 28, 1]
 
-checkpoint_path = "training_1/cp.ckpt"
+checkpoint_path = "training_digits/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 cp_callback = tf.keras.callbacks.ModelCheckpoint(checkpoint_path,
